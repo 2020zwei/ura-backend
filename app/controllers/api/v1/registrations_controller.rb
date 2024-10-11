@@ -8,9 +8,14 @@ class Api::V1::RegistrationsController <  DeviseTokenAuth::RegistrationsControll
     def create
       new_user = User.new(permit_params)
       raise ActiveRecord::RecordInvalid,new_user unless new_user.valid?
-      if new_user.save!
+       auth_header = new_user.create_new_auth_token(new_user.tokens.keys.first)
+       token = auth_header["Authorization"].split(" ")[1]
+
+       if new_user.save!
         render json: {
           status: 'success',
+          message: "User created Successfully!",
+          token: token,
           data: new_user.as_json,
           }, status: :ok
         else

@@ -49,3 +49,4 @@ config/deploy/staging.rb
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+/config/credentials/production.key

@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
                                 message: "should start with an alphabet and can contain both alphabets and numbers, but not consist of only numbers" }
   validates :username, format: { without: /\s/, message: "cannot contain spaces" }
   validates :username, length: { minimum: 1, maximum: 10 }
-  validates_uniqueness_of :email, :username
+  validates_uniqueness_of :username
   validate :password_complexity
 
   private

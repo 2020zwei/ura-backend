@@ -16,12 +16,14 @@ class Api::V1::SessionsController < DeviseTokenAuth::SessionsController
               if @resource.valid_password?(params[:password])
                 sign_in(:user, @resource, store: false, bypass: false)
                 create_and_assign_token
+                auth_header = @resource.create_new_auth_token(@resource.tokens.keys.first)
+                token = auth_header["Authorization"].split(" ")[1]
                 @resource.update_attribute(:failed_attempts, 0)
                 @resource.update_attribute(:locked_at, nil)
                 yield if block_given?
                 @device_token = params[:device_token]
                 DeviceToken.find_or_create_by(user_id: @resource.id, token: @device_token) if @device_token.present?
-                render json: { data: current_api_v1_user }, status: :ok
+                render json: { data: current_api_v1_user, token: token  }, status: :ok
               else
                 @resource.increment!(:failed_attempts)
                 @resource.update_attribute(:locked_at, Time.now) if @resource.failed_attempts >= 4
