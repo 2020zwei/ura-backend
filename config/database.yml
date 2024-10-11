@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: ura_backend_backend_development
+  username: <%= ENV.fetch("DATBASE_USERNAME") { 5 } %>
+  password: <%= ENV.fetch("DATBASE_PASSWORD") { 5 } %>
+  host: localhost
+production:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:database, :database_name) %>
+  host: <%= Rails.application.credentials.dig(:database, :host) %>
+  port: <%= Rails.application.credentials.dig(:database, :port) %>
+  username: <%= Rails.application.credentials.dig(:database, :username) %>
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
