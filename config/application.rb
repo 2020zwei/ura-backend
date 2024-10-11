@@ -16,6 +16,28 @@ module UraBackend
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.use config.session_store, config.session_options
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+                 headers: :any,
+                 expose: ['access-token', 'expiry', 'token-type', 'uid', 'client', 'Authorization'],
+                 methods: [:get, :post, :patch, :options, :delete, :put],
+                 credentials: false
+      end
+    end
+
+    ['middlewares', 'services', 'controllers.concerns', 'models.concerns'].each do |folder_name|
+      config.autoload_paths << Rails.root.join('app', *folder_name.split('.'))
+      config.eager_load_paths << Rails.root.join('app', *folder_name.split('.'))
+    end
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

@@ -26,7 +26,12 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 gem 'dotenv-rails'
-
+gem 'devise'
+gem 'sass-rails'
+gem 'figaro', '~> 1.2'
+gem 'awesome_print'
+gem 'devise_token_auth'
+gem 'rack-cors'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
