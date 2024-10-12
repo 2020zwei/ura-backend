@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   # has_one_attached :profile_image
+  # Relations
+  has_many :wishlists, dependent: :destroy
   
   # Validations
   validates :first_name, presence: true

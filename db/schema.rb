@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_11_085922) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_12_185029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "products", force: :cascade do |t|
+    t.string "amazon_id", null: false
+    t.string "name"
+    t.text "description"
+    t.string "image_url"
+    t.decimal "price", precision: 10, scale: 2
+    t.string "affiliate_link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amazon_id"], name: "index_products_on_amazon_id"
+  end
+
+  create_table "shared_wishlists", force: :cascade do |t|
+    t.bigint "wishlist_id", null: false
+    t.string "shareable_link"
+    t.string "email"
+    t.datetime "shared_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shareable_link"], name: "index_shared_wishlists_on_shareable_link", unique: true
+    t.index ["wishlist_id"], name: "index_shared_wishlists_on_wishlist_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -56,4 +79,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_085922) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "wishlist_products", force: :cascade do |t|
+    t.bigint "wishlist_id", null: false
+    t.bigint "product_id", null: false
+    t.string "variant"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_wishlist_products_on_product_id"
+    t.index ["wishlist_id"], name: "index_wishlist_products_on_wishlist_id"
+  end
+
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
+  add_foreign_key "shared_wishlists", "wishlists"
+  add_foreign_key "wishlist_products", "products"
+  add_foreign_key "wishlist_products", "wishlists"
+  add_foreign_key "wishlists", "users"
 end
