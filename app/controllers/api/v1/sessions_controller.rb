@@ -23,7 +23,7 @@ class Api::V1::SessionsController < DeviseTokenAuth::SessionsController
                 yield if block_given?
                 @device_token = params[:device_token]
                 DeviceToken.find_or_create_by(user_id: @resource.id, token: @device_token) if @device_token.present?
-                render json: { data: current_api_v1_user, token: token  }, status: :ok
+                render json: { status: "success", data: current_api_v1_user, token: token  }, status: :ok
               else
                 @resource.increment!(:failed_attempts)
                 @resource.update_attribute(:locked_at, Time.now) if @resource.failed_attempts >= 4
