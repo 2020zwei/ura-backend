@@ -77,8 +77,8 @@ module Api
         end
     
         def update
-          token = request.headers[:token].to_s
-          return render json: {success: false, message: 'Token not present' } if request.headers[:token].blank?
+          token = params[:token].to_s
+          return render json: {success: false, message: 'Token not present' } if params[:token].blank?
           
           user = User.find_by(reset_password_token: token)
           if user.present? && user.password_token_valid?
