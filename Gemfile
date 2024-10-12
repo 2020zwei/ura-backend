@@ -32,6 +32,7 @@ gem 'figaro', '~> 1.2'
 gem 'awesome_print'
 gem 'devise_token_auth'
 gem 'rack-cors'
+gem 'sib-api-v3-sdk'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

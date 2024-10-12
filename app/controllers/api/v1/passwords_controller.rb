@@ -4,7 +4,9 @@ module Api
         include DeviseTokenAuth::Concerns::SetUserByToken
         before_action :set_user_by_token, :only => [:update]
         skip_after_action :update_auth_header, :only => [:create, :edit]
-    
+        skip_before_action :verify_authenticity_token
+        include Rescuable
+        
         def create
           unless params[:email].present?
             return render json: { success: false, message:  'Attempt to initiate forgot password routine with no email set' },

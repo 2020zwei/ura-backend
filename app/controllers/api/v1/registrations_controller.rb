@@ -3,7 +3,7 @@ class Api::V1::RegistrationsController <  DeviseTokenAuth::RegistrationsControll
     include DeviseTokenAuth::Concerns::SetUserByToken
     include Rescuable
     before_action :configure_permitted_parameters
-    PARAMS = [:email, :password, :password_confirmation, :username, :profile_image]
+    PARAMS = [:email, :password, :password_confirmation, :first_name, :last_name, :profile_image]
     
     def create
       new_user = User.new(permit_params)

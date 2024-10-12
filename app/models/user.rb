@@ -6,16 +6,25 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_one_attached :profile_image
+  # has_one_attached :profile_image
   
   # Validations
-  validates :username, format: { with: /\A[a-zA-Z][a-zA-Z0-9]*\z/,
-                                message: "should start with an alphabet and can contain both alphabets and numbers, but not consist of only numbers" }
-  validates :username, format: { without: /\s/, message: "cannot contain spaces" }
-  validates :username, length: { minimum: 1, maximum: 10 }
-  validates_uniqueness_of :username
+  validates :first_name, presence: true
   validate :password_complexity
 
+  # callbacks
+  after_create :add_to_sendinblue
+
+  def password_token_valid?
+    (self.reset_password_sent_at + 30.minutes) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    self.reset_password_token = nil
+    self.password = password
+    save!
+  end
+  
   private
   
   def password_complexity
@@ -24,5 +33,9 @@ class User < ActiveRecord::Base
     unless password.match(/[!@#$%^&*(),.?":{}|<>]/)
       errors.add :password, 'must include at least one special character'
     end
+  end
+
+  def add_to_sendinblue
+    SendinblueContactService.new(self).create_contact
   end
 end

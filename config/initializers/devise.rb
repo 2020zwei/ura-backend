@@ -98,7 +98,19 @@ Devise.setup do |config|
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   config.skip_session_storage = [:http_auth]
+  
+  config.mailer_sender = 'support@thepicmeapp.com'
 
+  config.mailer = 'Devise::Mailer'
+
+  ActionMailer::Base.smtp_settings = {
+    user_name: "apikey",
+    password: ENV["sendgrid_key"],
+    address: "smtp.sendgrid.net",
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token

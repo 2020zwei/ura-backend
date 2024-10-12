@@ -117,6 +117,8 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
+    ethon (0.16.0)
+      ffi (>= 1.15.0)
     ffi (1.17.0)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
@@ -135,6 +137,7 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.7.2)
     logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
@@ -236,6 +239,10 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sib-api-v3-sdk (9.1.0)
+      addressable (~> 2.3, >= 2.3.0)
+      json (~> 2.1, >= 2.1.0)
+      typhoeus (~> 1.0, >= 1.0.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -252,6 +259,8 @@ GEM
     turbo-rails (2.0.10)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
+    typhoeus (1.4.1)
+      ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     warden (1.2.9)
@@ -290,6 +299,7 @@ DEPENDENCIES
   rails (~> 7.1.4)
   sass-rails
   selenium-webdriver
+  sib-api-v3-sdk
   sprockets-rails
   stimulus-rails
   turbo-rails
