@@ -33,6 +33,8 @@ gem 'awesome_print'
 gem 'devise_token_auth'
 gem 'rack-cors'
 gem 'sib-api-v3-sdk'
+gem 'vacuum'
+gem 'faker'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
