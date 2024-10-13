@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  # has_one_attached :profile_image
+  has_one_attached :profile_image
+  
   # Relations
   has_many :wishlists, dependent: :destroy
   
@@ -27,6 +28,14 @@ class User < ActiveRecord::Base
     save!
   end
   
+  def avatar_url
+    if profile_image.attached?
+      IMAGE_URL + "#{profile_image_key}"
+    else
+      ""
+    end
+  end
+
   private
   
   def password_complexity
@@ -39,5 +48,9 @@ class User < ActiveRecord::Base
 
   def add_to_sendinblue
     SendinblueContactService.new(self).create_contact
+  end
+
+  def profile_image_key
+    profile_image.key
   end
 end

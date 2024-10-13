@@ -35,6 +35,8 @@ gem 'rack-cors'
 gem 'sib-api-v3-sdk'
 gem 'vacuum'
 gem 'faker'
+gem 'active_model_serializers'
+gem 'aws-sdk-s3', '~> 1.48'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
