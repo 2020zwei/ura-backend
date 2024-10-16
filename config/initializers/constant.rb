@@ -43,4 +43,4 @@ UNPROCESSABLE_ENTITY_EXCEPTIONS = ['ActionController::InvalidAuthenticityToken',
                                    'ActiveRecord::RecordNotSaved'].freeze
 NOT_IMPLEMENTED_EXCEPTIONS = ['ActionController::NotImplemented'].freeze
 
-IMAGE_URL = "https://picme.s3.amazonaws.com/".freeze
+IMAGE_URL = "https://momentsapp.s3.amazonaws.com/".freeze

@@ -1,31 +1,11 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
   hello: "Hello world"
+  General:
+    MissingParams: "Invalid Request. Parameters Missing!"
+    WentWrong: "Something went wrong. Please try again"
+    MissingParams: "Invalid Request. Parameters Missing!"
+  User:
+    inValid: "Invalid User"
+    notFound: "User not Found!"
+  Session:
+    locked: "Your account has been temporarily locked due to multiple unsuccessful login attempts. For your security, you will be able to try logging in again in 20 minutes. If you need immediate access or believe your account has been compromised, please follow our password recovery process or contact support for assistance."

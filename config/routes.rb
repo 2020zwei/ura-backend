@@ -22,6 +22,9 @@ Rails.application.routes.draw do
           get :me
         end
       end
+
+      resources :products, only: [:index] do
+      end
       concerns :api_endpoints
     end
   end
