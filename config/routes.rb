@@ -28,6 +28,8 @@ Rails.application.routes.draw do
           get :product_detail
         end
       end
+      resources :wishlists, only: [:index, :create, :destroy] do
+      end
       concerns :api_endpoints
     end
   end

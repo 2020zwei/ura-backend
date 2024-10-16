@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_one_attached :profile_image
   
   # Relations
-  has_many :wishlists, dependent: :destroy
+  has_one :wishlist, dependent: :destroy
   
   # Validations
   validates :first_name, presence: true
