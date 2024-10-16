@@ -99,16 +99,16 @@ Devise.setup do |config|
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   config.skip_session_storage = [:http_auth]
   
-  config.mailer_sender = 'support@thepicmeapp.com'
+  config.mailer_sender = 'hello@momentsapp.co'
 
   config.mailer = 'Devise::Mailer'
-
   ActionMailer::Base.smtp_settings = {
-    user_name: "apikey",
-    password: ENV["sendgrid_key"],
-    address: "smtp.sendgrid.net",
-    port: 587,
-    authentication: :plain,
+    address:              'smtp-relay.brevo.com', # Correct Brevo SMTP relay
+    port:                 587,
+    domain:               'momentsapp.co',        # Make sure this domain is correct
+    user_name:            '7daa21001@smtp-brevo.com', # Your Brevo SMTP username
+    password:             'pXhdNKytn81mAkT7',        # Your Brevo SMTP password
+    authentication:       :login,
     enable_starttls_auto: true
   }
   # By default, Devise cleans up the CSRF token on authentication to

@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-    default from: 'support@thepicmeapp.com'
+    default from: 'hello@momentsapp.co'
     def otp_email(user)
       @user = user
       @otp_code = user.otp
