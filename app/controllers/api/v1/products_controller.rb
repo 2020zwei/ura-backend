@@ -1,6 +1,8 @@
 module Api
     module V1
       class ProductsController < BaseController
+        skip_before_action :authenticate_api_v1_user!, only: [:index, :product_detail]
+
   
         def index
           unless params[:category].present?
@@ -17,6 +19,20 @@ module Api
           end
         end
   
+        def product_detail
+          unless params[:product_asin].present?
+            return render json: { success: false, message: I18n.t('General.MissingParams') }, status: :unprocessable_entity
+          end
+  
+          response = get_product_detail(params[:product_asin])
+          if response.is_a?(Net::HTTPSuccess)
+            parsed_data = JSON.parse(response.body)
+            render json: { success: true, data: parsed_data["data"] }, status: :ok
+          else
+            render json: { success: false, message: "Error fetching data from API" }, status: :bad_request
+          end
+        end
+
         private
   
         def search_by_category(keyword)
@@ -32,7 +48,7 @@ module Api
         end
   
         def extract_top_20_products(parsed_data)
-          parsed_data["data"]["products"].first(20).map do |product|
+          parsed_data["data"]["products"].first(10).map do |product|
             {
               asin: product["asin"],
               title: product["product_title"],
@@ -41,6 +57,19 @@ module Api
               product_photo: product["product_photo"]
             }
           end
+        end
+
+        def get_product_detail(asin)
+          url = URI("https://real-time-amazon-data.p.rapidapi.com/product-details?asin=#{asin}&country=US")
+
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+
+        request = Net::HTTP::Get.new(url)
+        request["x-rapidapi-key"] = ENV['RAPIDAPI_KEY']
+        request["x-rapidapi-host"] = 'real-time-amazon-data.p.rapidapi.com'
+
+        response = http.request(request)
         end
       end
     end

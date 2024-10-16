@@ -24,6 +24,9 @@ Rails.application.routes.draw do
       end
 
       resources :products, only: [:index] do
+        collection do
+          get :product_detail
+        end
       end
       concerns :api_endpoints
     end
