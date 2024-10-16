@@ -7,8 +7,8 @@ class AmazonPaApiService
   def initialize
     @client = Vacuum.new(
       marketplace: 'US',
-      access_key: ENV["AWS_ACCESS_KEY_ID"],
-      secret_key: ENV["AWS_SECRET_ACCESS_KEY"],
+      access_key: ENV["PAAPI_ACCESS_KEY_ID"],
+      secret_key: ENV["PAAPI_SECRET_ACCESS_KEY"],
       partner_tag: ENV["PARTNER_TAG"]
     )
     @last_request_time = Time.now - 1.day
