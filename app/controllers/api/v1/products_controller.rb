@@ -8,15 +8,11 @@ module Api
           unless params[:category].present?
             return render json: { success: false, message: I18n.t('General.MissingParams') }, status: :unprocessable_entity
           end
-  
-          response = search_by_category(params[:category].to_s)
-          if response.is_a?(Net::HTTPSuccess)
-            parsed_data = JSON.parse(response.body)
-            top_20_products = extract_top_20_products(parsed_data)
-            render json: { success: true, data: top_20_products }, status: :ok
-          else
-            render json: { success: false, message: "Error fetching data from API" }, status: :bad_request
-          end
+
+          response = Product.where("name ILIKE ?", "%#{params[:category]}%")
+                            .order(rating: :desc)
+          top_10_products = extract_top_10_products(response)
+          render json: { success: true, data: top_10_products }, status: :ok
         end
   
         def product_detail
@@ -70,6 +66,18 @@ module Api
         request["x-rapidapi-host"] = 'real-time-amazon-data.p.rapidapi.com'
 
         response = http.request(request)
+        end
+
+        def extract_top_10_products(products)
+          products.first(10).map do |product|
+            {
+              asin: product&.amazon_id,
+              title: product&.name,
+              price: product&.price,
+              currency: "USD",
+              product_photo: product&.image_url
+            }
+          end
         end
       end
     end
