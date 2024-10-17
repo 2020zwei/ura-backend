@@ -19,13 +19,12 @@ module Api
           unless params[:product_asin].present?
             return render json: { success: false, message: I18n.t('General.MissingParams') }, status: :unprocessable_entity
           end
-  
-          response = get_product_detail(params[:product_asin])
-          if response.is_a?(Net::HTTPSuccess)
-            parsed_data = JSON.parse(response.body)
-            render json: { success: true, data: parsed_data["data"] }, status: :ok
+          product = Product.find_by(amazon_id: params[:product_asin])
+          if product
+            response = product_list(product)
+            render json: { success: true, data: response }, status: :ok
           else
-            render json: { success: false, message: "Error fetching data from API" }, status: :bad_request
+            render json: { success: false, message: "Product not Found" }, status: :bad_request
           end
         end
 
@@ -78,6 +77,20 @@ module Api
               product_photo: product&.image_url
             }
           end
+        end
+
+        def product_list(product)
+          list = {
+            id: product&.id,
+            asin: product&.amazon_id,
+            product_title: product&.name,
+            product_description: product&.description.present? ? product&.description : product&.name,
+            product_photo: product&.image_url,
+            product_price: product&.price,
+            product_url: product&.affiliate_link,
+            product_photos: product&.images.present? ? product&.images : [product&.image_url]
+          }
+          list
         end
       end
     end
